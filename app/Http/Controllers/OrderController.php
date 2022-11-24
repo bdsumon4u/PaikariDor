@@ -421,7 +421,7 @@ class OrderController extends Controller
                 }
             }
 
-            $order->grand_total = $subtotal + $tax + $shipping;
+            $order->grand_total = round($subtotal + $tax + $shipping);
 
             if ($seller_product[0]->coupon_code != null) {
                 // if (Session::has('club_point')) {
