@@ -88,7 +88,7 @@
                                                         <button class="btn col-auto btn-icon btn-sm btn-circle btn-light" type="button" data-type="minus" data-field="quantity[{{ $cartItem['id'] }}]">
                                                             <i class="las la-minus"></i>
                                                         </button>
-                                                        <input type="number" name="quantity[{{ $cartItem['id'] }}]" class="col border-0 text-center flex-grow-1 fs-16 input-number" placeholder="1" value="{{ $cartItem['quantity'] }}" min="{{ $product->min_qty }}" max="{{ $product_stock->qty }}" onchange="updateQuantity({{ $cartItem['id'] }}, this)">
+                                                        <input type="number" name="quantity[{{ $cartItem['id'] }}]" class="col border-0 text-center flex-grow-1 fs-16 input-number" placeholder="1" value="{{ $cartItem['quantity'] }}" min="{{ $product->min_qty }}" max="{{ optional($product_stock)->qty }}" onchange="updateQuantity({{ $cartItem['id'] }}, this)">
                                                         <button class="btn col-auto btn-icon btn-sm btn-circle btn-light" type="button" data-type="plus" data-field="quantity[{{ $cartItem['id'] }}]">
                                                             <i class="las la-plus"></i>
                                                         </button>
@@ -217,14 +217,16 @@
                                                     <input type="text" class="form-control mb-3" id="name" name="name" required>
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-md-2">
-                                                    <label>{{ translate('Address')}}</label>
+                                                    <label>{{ translate('Phone')}}</label>
                                                 </div>
                                                 <div class="col-md-10">
-                                                    <textarea class="form-control mb-3" placeholder="{{ translate('Your Address')}}" rows="2" name="address" required></textarea>
+                                                    <input type="text" class="form-control mb-3" placeholder="{{ translate('+880')}}" name="phone" value="" required>
                                                 </div>
                                             </div>
+
                                             <div class="row d-none">
                                                 <div class="col-md-2">
                                                     <label>{{ translate('Country')}}</label>
@@ -262,6 +264,15 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Address')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <textarea class="form-control mb-3" placeholder="{{ translate('Your Address')}}" rows="2" name="address" required></textarea>
+                                                </div>
+                                            </div>
 
                                             @if (get_setting('google_map') == 1)
                                                 <div class="row">
@@ -295,15 +306,6 @@
                                             @endif
 
                                             <input type="hidden" class="form-control mb-3" name="postal_code" value="">
-
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Phone')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control mb-3" placeholder="{{ translate('+880')}}" name="phone" value="" required>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 @endif
