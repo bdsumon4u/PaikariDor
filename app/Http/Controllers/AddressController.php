@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\City;
 use App\Models\State;
 use Auth;
+use Str;
 
 class AddressController extends Controller
 {
@@ -38,6 +39,11 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
+        $phone = Str::replaceArray(' ', [''], Str::after($request->phone, '+88'));
+        if (strlen($phone) > 11 || strlen($phone) < 11) {
+            flash(translate('Invalid phone number'))->warning();
+            return back();
+        }
         $address = new Address;
         if($request->has('customer_id')){
             $address->user_id   = $request->customer_id;
@@ -52,7 +58,7 @@ class AddressController extends Controller
         $address->longitude     = $request->longitude;
         $address->latitude      = $request->latitude;
         $address->postal_code   = $request->postal_code;
-        $address->phone         = $request->phone;
+        $address->phone         = $phone;
         $address->save();
 
         flash(translate('Address info Stored successfully'))->success();
@@ -96,6 +102,11 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $phone = Str::replaceArray(' ', [''], Str::after($request->phone, '+88'));
+        if (strlen($phone) > 11 || strlen($phone) < 11) {
+            flash(translate('Invalid phone number'))->warning();
+            return back();
+        }
         $address = Address::findOrFail($id);
         
         $address->address       = $request->address;
@@ -105,7 +116,7 @@ class AddressController extends Controller
         $address->longitude     = $request->longitude;
         $address->latitude      = $request->latitude;
         $address->postal_code   = $request->postal_code;
-        $address->phone         = $request->phone;
+        $address->phone         = $phone;
 
         $address->save();
 

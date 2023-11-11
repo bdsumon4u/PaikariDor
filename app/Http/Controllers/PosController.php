@@ -235,24 +235,29 @@ class PosController extends Controller
     public function set_shipping_address(Request $request) {
         if ($request->address_id != null) {
             $address = Address::findOrFail($request->address_id);
-            $data['name'] = $address->user->name;
-            $data['email'] = $address->user->email;
-            $data['address'] = $address->address;
-            $data['country'] = $address->country->name;
-            $data['state'] = $address->state->name;
-            $data['city'] = $address->city->name;
-            $data['postal_code'] = $address->postal_code;
-            $data['phone'] = $address->phone;
         } else {
-            $data['name'] = $request->name;
-            $data['email'] = $request->email;
-            $data['address'] = $request->address;
-            $data['country'] = Country::find($request->country_id)->name;
-            $data['state'] = State::find($request->state_id)->name;
-            $data['city'] = City::find($request->city_id)->name;
-            $data['postal_code'] = $request->postal_code;
-            $data['phone'] = $request->phone;
+            $address = new Address;
+            $address->user_id       = Auth::user()->id;
+            $address->address       = $request->address;
+            $address->country_id    = $request->country_id;
+            $address->state_id      = $request->state_id;
+            $address->city_id       = $request->city_id;
+            $address->longitude     = $request->longitude;
+            $address->latitude      = $request->latitude;
+            $address->postal_code   = $request->postal_code;
+            $address->phone         = $request->phone;
+            $address->save();
         }
+
+        $data['address_id'] = $address->id;
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['address'] = $request->address;
+        $data['country'] = Country::find($request->country_id)->name;
+        $data['state'] = State::find($request->state_id)->name;
+        $data['city'] = City::find($request->city_id)->name;
+        $data['postal_code'] = $request->postal_code;
+        $data['phone'] = $request->phone;
 
         $shipping_info = $data;
         $request->session()->put('pos.shipping_info', $shipping_info);
@@ -295,6 +300,7 @@ class PosController extends Controller
             else {
                 $order->user_id = $request->user_id;
             }
+            $data['address_id']     = Session::get('pos.shipping_info')['address_id'];
             $data['name']           = $shipping_info['name'];
             $data['email']          = $shipping_info['email'];
             $data['address']        = $shipping_info['address'];
