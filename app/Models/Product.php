@@ -7,6 +7,12 @@ use App;
 
 class Product extends Model
 {
+    /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'oninda';
 
     protected $guarded = ['choice_attributes'];
 

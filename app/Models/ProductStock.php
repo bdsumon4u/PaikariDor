@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductStock extends Model
 {
+    /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'oninda';
+
     protected $fillable = ['product_id', 'variant', 'sku', 'price', 'qty', 'image'];
     //
     public function product(){

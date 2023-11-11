@@ -27,6 +27,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class SubSubCategory extends Model
 {
+    /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'oninda';
+
     protected static function boot()
     {
         parent::boot();

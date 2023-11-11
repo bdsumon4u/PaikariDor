@@ -7,6 +7,13 @@ use App;
 
 class Category extends Model
 {
+    /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'oninda';
+
     protected $with = ['category_translations'];
 
     public function getTranslation($field = '', $lang = false){
